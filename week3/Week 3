@@ -1,0 +1,48 @@
+import tkinter as tk
+
+def on_click(event):
+    text = event.widget.cget("text")
+    if text == "=":
+        try:
+            result = str(eval(screen.get()))
+            screen.set(result)
+        except Exception:
+            screen.set("Error")
+    elif text == "C":
+        screen.set("")
+    else:
+        screen.set(screen.get() + text)
+
+# Create the main window
+root = tk.Tk()
+root.title("Calculator")
+root.geometry("400x500")
+
+# Entry widget to display the expression/result
+screen = tk.StringVar()
+entry = tk.Entry(root, textvariable=screen, font="Arial 24", bd=10, relief=tk.SUNKEN, justify="right")
+entry.pack(fill="both", ipadx=8, pady=10, padx=10)
+
+# Button layout
+button_layout = [
+    ["7", "8", "9", "/"],
+    ["4", "5", "6", "*"],
+    ["1", "2", "3", "-"],
+    ["C", "0", "=", "+"]
+]
+
+# Frame to hold the buttons
+button_frame = tk.Frame(root)
+button_frame.pack()
+
+# Create buttons dynamically
+for row in button_layout:
+    row_frame = tk.Frame(button_frame)
+    row_frame.pack(expand=True, fill="both")
+    for btn_text in row:
+        btn = tk.Button(row_frame, text=btn_text, font="Arial 18", padx=10, pady=20)
+        btn.pack(side="left", expand=True, fill="both")
+        btn.bind("<Button-1>", on_click)
+
+# Start the GUI event loop
+root.mainloop()
